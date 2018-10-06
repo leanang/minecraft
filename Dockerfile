@@ -1,4 +1,4 @@
-# Minecraft 1.11 Dockerfile - Example with notes
+# Minecraft 1.13.1 Dockerfile - Example with notes
 
 # Use the offical Debian Docker image with a specified version tag, Jessie, so not all
 # versions of Debian images are downloaded.
@@ -7,7 +7,7 @@ FROM debian:jessie
 MAINTAINER Michael Chiang <mchiang@docker.com>
 
 # Drives which version we are going to install
-ENV MINECRAFT_VERSION 1.12.2
+ENV MINECRAFT_VERSION 1.13.1
 
 # Use APT (Advanced Packaging Tool) built in the Linux distro to download Java, a dependency
 # to run Minecraft.
@@ -18,7 +18,7 @@ ENV MINECRAFT_VERSION 1.12.2
 RUN echo "deb http://http.debian.net/debian jessie-backports main" > /etc/apt/sources.list.d/jessie-backports.list; \
     apt-get -y update; \
     apt install -y -t jessie-backports openjdk-8-jre-headless ca-certificates-java wget; \
-    wget -q https://s3.amazonaws.com/Minecraft.Download/versions/${MINECRAFT_VERSION}/minecraft_server.${MINECRAFT_VERSION}.jar;
+    wget -q https://launcher.mojang.com/v1/objects/fe123682e9cb30031eae351764f653500b7396c9/server.jar;
 # We do the above in a single line to reduce the number of layers in our container
 
 # Sets working directory for the CMD instruction (also works for RUN, ENTRYPOINT commands)
@@ -30,4 +30,4 @@ VOLUME /data
 EXPOSE 25565
 
 #Automatically accept Minecraft EULA, and start Minecraft server
-CMD echo eula=true > /data/eula.txt && java -jar /minecraft_server.${MINECRAFT_VERSION}.jar
+CMD echo eula=true > /data/eula.txt && java -jar /server.jar
